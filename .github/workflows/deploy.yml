@@ -35,7 +35,7 @@ jobs:
         certutil -decode cert.asc cert.pfx
 
     - name: Installing Signing Certificate
-      run: certutil -user -p ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }} -Silent NoRoot -importpfx cert.pfx
+      run: certutil -user -p ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }} -Silent -importpfx cert.pfx NoRoot
 
 
     - name: Publish Application
