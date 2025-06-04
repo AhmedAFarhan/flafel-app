@@ -29,12 +29,23 @@ jobs:
       run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
       working-directory: ./flafel-app/Flafel.Presentation
 
+    - name: Decoding Signing Certificate
+      run: |
+        echo "${{ secrets.SIGNING_CERTIFICATE_BASE_64_CONTENT }}" > cert.asc
+        certutil -decode cert.asc cert.pfx
+
+    - name: Installing Signing Certificate
+      run: certutil -user -p ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }} -Silent NoRoot -importpfx cert.pfx
+
+
     - name: Publish Application
-      run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true
+      run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint=${{ secrets.SIGNING_CERTIFICATE_THUMBPRINT }}
       working-directory: ./flafel-app/Flafel.Presentation
 
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
         name: Build
-        path: ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
+        path: |
+          ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
+          ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.cer
