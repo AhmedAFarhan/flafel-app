@@ -82,7 +82,7 @@ jobs:
       with:
         tag_name: v${{ steps.extractVersion.outputs.version }}
         files: |
-          ./flafel-app/Flafel.Presentation/AutoUpdate.appinstaller
+          ./flafel-app/Flafel.Presentation/FlafelApp.appinstaller
           ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/Flafel.Presentation_${{ steps.extractVersion.outputs.version }}.1_Test/AutoUpdate.msix
           ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/Flafel.Presentation_${{ steps.extractVersion.outputs.version }}.1_Test/FlafelApp.cer
 
