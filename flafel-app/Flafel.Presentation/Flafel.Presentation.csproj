@@ -22,7 +22,7 @@
         <Nullable>enable</Nullable>
 
         <!-- Display name -->
-        <ApplicationTitle>Flafel.Presentation</ApplicationTitle>
+        <ApplicationTitle>FlafelApp</ApplicationTitle>
 
         <!-- App Identifier -->
         <ApplicationId>AhmedAbdou.flafel.presentation</ApplicationId>
@@ -55,6 +55,16 @@
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="%24placeholder%24.scale-100.png" />
+      <None Remove="%24placeholder%24.scale-400.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="$placeholder$.scale-100.png" />
+      <Content Include="$placeholder$.scale-400.png" />
     </ItemGroup>
 
     <ItemGroup>
