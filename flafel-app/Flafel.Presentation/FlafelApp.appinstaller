@@ -5,7 +5,7 @@
 
 	<MainPackage Name="AhmedAbdou.flafel.presentation"
 	             Publisher="CN=AhmedAbdou"
-				 Version="1.0.2"
+				 Version="1.0.3"
 				 ProcessorArchitecture="x64"
 				 Uri="https://github.com/AhmedAFarhan/flafel-app/releases/latest/download/AutoUpdate.msx"/>
 	<UpdateSettings>
