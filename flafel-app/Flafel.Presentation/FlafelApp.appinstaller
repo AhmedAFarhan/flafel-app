@@ -1,14 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<AppInstaller xmlns="http://schemas.microsoft.com/appx/appinstaller/2018"
-			  Version="1.0.0.0"
-			  Uri="https://github.com/AhmedAFarhan/flafel-app/releases/latest/download/FlafelApp.appinstaller">
-
-	<MainPackage Name="AhmedAbdou.flafel.presentation"
-	             Publisher="CN=AhmedAbdou"
-				 Version="1.0.3"
-				 ProcessorArchitecture="x64"
-				 Uri="https://github.com/AhmedAFarhan/flafel-app/releases/latest/download/AutoUpdate.msx"/>
-	<UpdateSettings>
-		<OnLaunch HoursBetweenUpdateChecks="0" />
-	</UpdateSettings>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller xmlns="http://schemas.microsoft.com/appx/appinstaller/2018" Version="1.0.0.0" Uri="https://github.com/AhmedAFarhan/flafel-app/releases/latest/download/FlafelApp.appinstaller">
+  <MainPackage Name="AhmedAbdou.flafel.presentation" Publisher="CN=AhmedAbdou" Version="1.0.4.1" ProcessorArchitecture="x64" Uri="https://github.com/AhmedAFarhan/flafel-app/releases/latest/download/AutoUpdate.msx" />
+  <UpdateSettings>
+    <OnLaunch HoursBetweenUpdateChecks="0" />
+  </UpdateSettings>
 </AppInstaller>
