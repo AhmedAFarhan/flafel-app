@@ -5,6 +5,9 @@ on:
     branches:
       - main 
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -42,10 +45,41 @@ jobs:
       run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint=${{ secrets.SIGNING_CERTIFICATE_THUMBPRINT }}
       working-directory: ./flafel-app/Flafel.Presentation
 
-    - name: Upload
-      uses: actions/upload-artifact@v4
+
+    - name: Extracting Version
+      id: extractVersion
+      shell: pwsh
+      run: |
+        $xml = [Xml] (Get-Content ./flafel-app/Flafel.Presentation/Flafel.Presentation.csproj)
+        [string] $version = [Version] $xml.Project.PropertyGroup.ApplicationDisplayVersion
+        echo "version=$($version)" >> $env:GITHUB_OUTPUT
+        
+
+    - name: Creating Version
+      uses: actions/github-script@v5
       with:
-        name: Build
-        path: |
-          ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
-          ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.cer
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.rest.git.createRef({
+            owner: contect.repo.owner,
+            repo: context.repo.repo,
+            sha: contect.sha,
+            ref: 'refs/tags/v${{ steps.extractVersion.outputs.version }}'
+          })
+
+
+    - name: Creating Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ steps.extractVersion.outputs.version }}
+        files: |
+          ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/Flafel.Presentation_${{ steps.extractVersion.outputs.version }}.1_Test/Flafel.Presentation_${{ steps.extractVersion.outputs.version }}.1_x64.msix
+          ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/Flafel.Presentation_${{ steps.extractVersion.outputs.version }}.1_Test/Flafel.Presentation_${{ steps.extractVersion.outputs.version }}.1_x64.cer
+
+    # - name: Uploading artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: Build
+    #     path: |
+    #       ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
+    #       ./flafel-app/Flafel.Presentation/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.cer
